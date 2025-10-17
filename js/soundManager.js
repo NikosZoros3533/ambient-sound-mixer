@@ -42,7 +42,6 @@ export class SoundManager {
 
     if (audio && !audio.paused) {
       audio.pause();
-      console.log(`Paused sound: ${soundId}`);
     }
   }
 
