@@ -2,6 +2,7 @@ export class SoundManager {
   constructor() {
     this.audioElements = new Map();
     this.isPlaying = false;
+    console.log("SoundManager Created...");
   }
 
   //Load a sound file
@@ -41,6 +42,7 @@ export class SoundManager {
 
     if (audio && !audio.paused) {
       audio.pause();
+      console.log(`Paused sound: ${soundId}`);
     }
   }
 
@@ -53,6 +55,7 @@ export class SoundManager {
     }
 
     audio.volume = volume / 100;
+    console.log(`Volume for ${soundId} to ${volume}`);
     return true;
   }
 
