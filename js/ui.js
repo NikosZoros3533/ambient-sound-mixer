@@ -105,4 +105,28 @@ export class UI {
       }
     }
   }
+
+  //Update volume display for a sound
+  updateVolumeDisplay(soundId, volume) {
+    const card = document.querySelector(`[data-sound="${soundId}"]`);
+    if (card) {
+      //Update number display
+      const volumeValue = card.querySelector(".volume-value");
+      if (volumeValue) {
+        volumeValue.textContent = volume;
+      }
+
+      //Update volume bar
+      const volumeBarFill = card.querySelector(".volume-bar-fill");
+      if (volumeBarFill) {
+        volumeBarFill.style.width = `${volume}%`;
+      }
+
+      //Update slider position
+      const slider = card.querySelector(".volume-slider");
+      if (slider) {
+        slider.value = volume;
+      }
+    }
+  }
 }

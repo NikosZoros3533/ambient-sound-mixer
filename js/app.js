@@ -41,6 +41,18 @@ class AmbientMixer {
         this.toggleSound(soundId);
       }
     });
+
+    //Handle volume slider changes
+    document.addEventListener("input", (e) => {
+      if (e.target.classList.contains("volume-slider")) {
+        const soundId = e.target.dataset.sound;
+        const volume = parseInt(e.target.value);
+        //this.setSoundVolume(soundId,volume)
+        
+      }});
+
+
+
   }
 
   //Load All Sounds
@@ -64,18 +76,18 @@ class AmbientMixer {
     }
     if (audio.paused) {
       //Get current slider value
-      // const card = document.querySelector(`[data-sound="${soundId}"]`);
-      // const slider = card.querySelector(".volume-slider");
-      // let volume = parseInt(slider.value);
+      const card = document.querySelector(`[data-sound="${soundId}"]`);
+      const slider = card.querySelector(".volume-slider");
+      let volume = parseInt(slider.value);
 
       //if slider is at 0,default to 50%
-      // if (volume === 0) {
-      // volume = 50;
-      // this.ui.updateVolumeDisplay(soundId, volume);
-      // }
+      if (volume === 0) {
+      volume = 50;
+      this.ui.updateVolumeDisplay(soundId, volume);
+      }
 
       //Set current sound state
-      // this.currentSoundState[soundId] = volume;
+      this.currentSoundState[soundId] = volume;
 
       //Play sound
       this.soundManager.setVolume(soundId, 50);
@@ -85,6 +97,14 @@ class AmbientMixer {
       this.soundManager.pauseSound(soundId);
       this.ui.updateSoundPlayButton(soundId, false);
     }
+  }
+
+  //Set Sound volume
+  setSoundVolume(soundId,volume){
+    //Update sound volume manager
+    this.soundManager.setVolume(soundId,volume);
+    //Update visual display
+    this.ui.updateVolumeDisplay(soundId,volume);
   }
 }
 
