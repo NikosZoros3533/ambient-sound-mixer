@@ -47,12 +47,9 @@ class AmbientMixer {
       if (e.target.classList.contains("volume-slider")) {
         const soundId = e.target.dataset.sound;
         const volume = parseInt(e.target.value);
-        //this.setSoundVolume(soundId,volume)
-        
-      }});
-
-
-
+        this.setSoundVolume(soundId, volume);
+      }
+    });
   }
 
   //Load All Sounds
@@ -82,8 +79,8 @@ class AmbientMixer {
 
       //if slider is at 0,default to 50%
       if (volume === 0) {
-      volume = 50;
-      this.ui.updateVolumeDisplay(soundId, volume);
+        volume = 50;
+        this.ui.updateVolumeDisplay(soundId, volume);
       }
 
       //Set current sound state
@@ -100,11 +97,11 @@ class AmbientMixer {
   }
 
   //Set Sound volume
-  setSoundVolume(soundId,volume){
+  setSoundVolume(soundId, volume) {
     //Update sound volume manager
-    this.soundManager.setVolume(soundId,volume);
+    this.soundManager.setVolume(soundId, volume);
     //Update visual display
-    this.ui.updateVolumeDisplay(soundId,volume);
+    this.ui.updateVolumeDisplay(soundId, volume);
   }
 }
 
