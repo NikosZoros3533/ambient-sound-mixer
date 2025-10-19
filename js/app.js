@@ -53,7 +53,7 @@ class AmbientMixer {
     });
 
     //Handle master volume changes
-    const masterVolumeSlider = document.getElementById("master-volume-slider");
+    const masterVolumeSlider = document.getElementById("masterVolume");
     if (masterVolumeSlider) {
       masterVolumeSlider.addEventListener("input", (e) => {
         const volume = parseInt(e.target.value);
