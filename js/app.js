@@ -26,6 +26,12 @@ class AmbientMixer {
 
       //Load all sounds
       this.loadAllSounds();
+
+      //Initialize sound states after loading sounds
+      sounds.forEach((sound) => {
+        this.currentSoundState[sound.id] = 0;
+      });
+
       this.isInitialized = true;
     } catch (error) {
       console.error("Failed to initialize app: ", error);
@@ -40,6 +46,11 @@ class AmbientMixer {
       if (e.target.closest(".play-btn")) {
         const soundId = e.target.closest(".play-btn").dataset.sound;
         this.toggleSound(soundId);
+      }
+      //Check if a default preset button was clicked
+      if (e.target.closest(".preset-btn")) {
+        const presetKey = e.target.closest(".preset-btn").dataset.preset;
+        await this.loadPreset(presetKey);
       }
     });
 
@@ -67,14 +78,13 @@ class AmbientMixer {
         this.toggleAllSounds();
       });
     }
-    
+
     //Handle reset button
     if (this.ui.resetButton) {
       this.ui.resetButton.addEventListener("click", () => {
         this.resetAll();
       });
     }
-
   }
 
   //Load All Sounds
@@ -158,6 +168,9 @@ class AmbientMixer {
 
   //Set Sound volume
   setSoundVolume(soundId, volume) {
+    //Set sound volume in state
+    this.currentSoundState[soundId] = volume;
+
     //Calculate effective volume
     const effectiveVolume = (volume * this.masterVolume) / 100;
     const audio = this.soundManager.audioElements.get(soundId);
@@ -214,10 +227,43 @@ class AmbientMixer {
   }
 
   //Reset everything to default state
-  resetAll(){
+  resetAll() {
     this.soundManager.stopAll();
     this.masterVolume = 100;
-    this.ui.resetUI()
+    sounds.forEach((sound) => {
+      this.currentSoundState[sound.id] = 0;
+    });
+    this.ui.resetUI();
+  }
+
+  //Load a preset config
+  loadPreset(presetKey) {
+    const preset = defaultPresets[presetKey];
+    if (!preset) {
+      console.error(`Preset ${presetKey} not found.`);
+      return;
+    }
+    this.soundManager.stopAll();
+    sounds.forEach((sound) => {
+      this.currentSoundState[sound.id] = 0;
+      this.ui.updateVolumeDisplay(sound.id, 0);
+      this.ui.updateSoundPlayButton(sound.id, false);
+    });
+
+    for (const [soundId, volume] of Object.entries(preset.sounds)) {
+      this.currentSoundState[soundId] = volume;
+      this.ui.updateVolumeDisplay(soundId, volume);
+      const effectiveVolume = (volume * this.masterVolume) / 100;
+      const audio = this.soundManager.audioElements.get(soundId);
+      if (audio) {
+        audio.volume = effectiveVolume / 100;
+        audio.play();
+        this.ui.updateSoundPlayButton(soundId, true);
+      }
+    }
+
+    this.soundManager.isPlaying = true;
+    this.ui.updateMainPlayButton(true);
   }
 }
 
