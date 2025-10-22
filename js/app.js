@@ -148,9 +148,16 @@ class AmbientMixer {
         if (minutes > 0) {
           this.timer.start(minutes);
           console.log(`Timer started for ${minutes} minutes.`);
-        }else{
+        } else {
           this.timer.stop();
         }
+      });
+    }
+
+    //Theme toggle
+    if (this.ui.themeToggle) {
+      this.ui.themeToggle.addEventListener("click", () => {
+        this.ui.toggleTheme();
       });
     }
   }
@@ -301,10 +308,10 @@ class AmbientMixer {
   resetAll() {
     this.soundManager.stopAll();
     this.masterVolume = 100;
-    
+
     //Reset timer
-    this.timer.stop()
-    if(this.ui.timerSelect){
+    this.timer.stop();
+    if (this.ui.timerSelect) {
       this.ui.timerSelect.value = "0";
     }
 
