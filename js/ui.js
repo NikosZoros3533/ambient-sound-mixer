@@ -66,11 +66,11 @@ export class UI {
   }
 
   //Create custom preset button
-  createCustomPresetButton(name, presetID) {
+  createCustomPresetButton(name, presetId) {
     const button = document.createElement("button");
     button.className =
       "custom-preset-btn bg-white/10 hover:bg-white/20 px-4 py-2 rounded-lg transition-all duration-300 relative group";
-    button.dataset.preset = presetID;
+    button.dataset.preset = presetId;
     button.innerHTML = `<i class="fas fa-star mr-2 text-yellow-400"></i>
      ${name}
      <button type="button" class="delete-preset absolute -top-2 -right-2 w-6 h-6 bg-red-500 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300" data-preset="${presetId}">
@@ -172,16 +172,50 @@ export class UI {
   }
 
   //Show save preset modal
-  showModal(){
+  showModal() {
     this.modal.classList.remove("hidden");
     this.modal.classList.add("flex");
     document.getElementById("presetName").focus();
   }
 
   //Hide save preset modal
-  hideModal(){
+  hideModal() {
     this.modal.classList.add("hidden");
     this.modal.classList.remove("flex");
     document.getElementById("presetName").value = "";
+  }
+
+  //Add custom preset to UI
+  addCustomPreset(name, presetId) {
+    const button = this.createCustomPresetButton(name, presetId);
+    this.customPresetsContainer.appendChild(button);
+  }
+
+  //Highlight active preset
+  setActivePreset(presetKey) {
+    //Remove active class from all buttons
+    document
+      .querySelectorAll(".preset-btn,.custom-preset-btn")
+      .forEach((btn) => {
+        btn.classList.remove("preset-active");
+      });
+
+    //Add active class to selected presets
+    const activeButton = document.querySelector(
+      `.preset-btn[data-preset="${presetKey}"],.custom-preset-btn[data-preset="${presetKey}"]`
+    );
+    if (activeButton) {
+      activeButton.classList.add("preset-active");
+    }
+  }
+
+  //Remove custom preset
+  removeCustomPreset(presetId) {
+    const button = document.querySelector(
+      `.custom-preset-btn[data-preset="${presetId}"]`
+    );
+    if (button) {
+      button.remove();
+    }
   }
 }
