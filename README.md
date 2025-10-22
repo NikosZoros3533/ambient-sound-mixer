@@ -1,9 +1,9 @@
 # Ambient Sound Mixer 🎵
 
-## This is a ambient sound mixer Vanilla JS project to git gud to <font color="green">Vim</font>Vim Motions
+## This is a ambient sound mixer Vanilla JS project to git gud to Vim Motions
 
-##ToDos \\n
--[ ] Make it a little bit different
+##ToDos \n
+-[ ] Make it a little bit different \n
 -[ ] Change the audios to something more interesting
 
 
